@@ -1,5 +1,4 @@
 const createHttpError = require('http-errors')
-const {User} = require("../database/models/user")
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 
@@ -21,4 +20,6 @@ module.exports = {
   //     next(httpError)
   //   }
   // })
+
+  
 }
