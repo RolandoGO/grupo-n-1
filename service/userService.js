@@ -5,10 +5,14 @@ module.exports ={
 
     updateUserService: async (id)=>{
 
+        
         const user = await User.findOne({where:{id}})
+      
         if(!user){
             throw new ErrorObject("user not found", 404)
         }
+
+        //update user here:
         return user
 
     }
