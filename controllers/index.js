@@ -1,17 +1,19 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const {deleteUserService} = require("")
+const {deleteUserService} = require("../service/userService")
 
 // example of a controller. First call the service, then build the controller method
 module.exports = {
   
   deleteUser: catchAsync(async (req, res, next) => {
+
+    
     try {
       const response = await deleteUserService(req.params.id)
       endpointResponse({
         res,
-        message: 'Test retrieved successfully',
+        message: 'user deleted',
         body: response,
       })
     } catch (error) {
