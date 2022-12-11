@@ -1,20 +1,20 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const {updateTransactionService} = require("../service/transactionService")
+const {deleteTransactionService} = require("../service/transactionService")
 
 // example of a controller. First call the service, then build the controller method
 module.exports = {
 
   
-  updateTransaction: catchAsync(async (req, res, next) => {
+  deleteTransaction: catchAsync(async (req, res, next) => {
 
     
     try {
-      const response = await updateTransactionService(req.params.id, req.body)
+      const response = await deleteTransactionService(req.params.id)
       endpointResponse({
         res,
-        message: 'transaction update successfully',
+        message: 'transaction delete successfully',
         body: response,
       })
     } catch (error) {

@@ -3,14 +3,14 @@ const {ErrorObject} =   require("../helpers/error")
 
 module.exports = {
 
-    updateTransactionService: async (id, data)=>{
+    deleteTransactionService: async (id)=>{
 
         const transaction = await Transaction.findOne({where:{id}})
         if(!transaction){
             throw new ErrorObject("no transaction found", 404)
         }
 
-        //create update here.
+        return await transaction.destroy()
         
 
     }
