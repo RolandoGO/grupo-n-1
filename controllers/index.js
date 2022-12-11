@@ -5,6 +5,8 @@ const {getUsersService} = require("../service/userService")
 
 // example of a controller. First call the service, then build the controller method
 module.exports = {
+
+  //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
 
     try {
