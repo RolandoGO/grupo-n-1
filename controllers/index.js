@@ -3,9 +3,10 @@ const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 const { getUserDataService } = require('../service/userService')
 
-// example of a controller. First call the service, then build the controller method
+// controller. First call the service, then build the controller method
 module.exports = {
 
+  //controller that passes the params id of the user to the service and then gives the response
   getUserData: catchAsync(async (req, res, next) => {
 
     try {
