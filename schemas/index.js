@@ -1,6 +1,6 @@
 const { checkSchema } = require('express-validator');
 
-const schema = checkSchema({
+const userSchema = checkSchema({
     firstName: {
         notEmpty: {
         errorMessage: "firstName field cannot be empty"
@@ -23,4 +23,8 @@ const schema = checkSchema({
     }
   })
 
-module.exports = { schema }
+  const schema = {
+    userSchema,
+  }
+
+module.exports = schema
