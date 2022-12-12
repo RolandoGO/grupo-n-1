@@ -4,7 +4,7 @@ const router = express.Router()
 
 // example of a route with index controller get function
 
-//must add middleware for validation of properties
+//Checkin if properties (userId, categorieId, date and amount) exist.
 router.put("/:id",  updateTransaction)
 
 module.exports = router
