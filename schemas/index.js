@@ -19,5 +19,7 @@ const transactionSchema = checkSchema({
     },
   })
 
-
-module.exports = { transactionSchema }
+const schema ={
+  transactionSchema,
+}
+module.exports = schema
