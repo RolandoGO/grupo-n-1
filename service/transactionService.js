@@ -5,15 +5,26 @@ module.exports = {
 
     updateTransactionService: async (id, data)=>{
 
+       
         //checking if the transaction exist
-        const transaction = await Transaction.findOne({where:{id}})
-        if(!transaction){
-            throw new ErrorObject("no transaction found", 404)
-        }
+        try{
+            const transaction = await Transaction.findOne({where:{id}})
 
-        //create update here.
+            if(!transaction){
+                throw new ErrorObject("no transaction found", 404)
+            }
+
+            //create update here.
 
         // await transaction.update(data, {});
+        
+        }
+        catch(error){
+            //manage error
+
+        }
+        
+
         
 
     }
