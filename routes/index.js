@@ -11,10 +11,6 @@ router.use("/users", userRouter)
 
 
 
-// example of a route with index controller get function
-// router.post('/',schemaUser,
-//   validationUser,(req,res) => res.json(req.body)
-//   )
 
 
 module.exports = router

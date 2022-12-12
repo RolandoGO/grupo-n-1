@@ -5,14 +5,8 @@ const {User} = require("../database/models")
 module.exports = {
 
     createUserService:async (data)=>{
-        //checking all properties in the request
-        const {email,firstName, lastName, password} = data
-
-        if(!email || !firstName || !lastName || !password){
-
-            throw new ErrorObject("properties missing in request", 404) 
-
-        }
+       
+        const {email} = data
         //checking if the user EMAIL is already in the database 
         const findEmail = await User.findOne({where: {email}})
 

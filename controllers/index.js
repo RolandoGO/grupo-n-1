@@ -7,24 +7,23 @@ const { createUserService } = require('../service/userService')
 module.exports = {
   createUser: catchAsync(async (req, res, next) => {
 
-    console.log("en create user")
-    // try {
+    try {
       
-    //   const response = await createUserService(req.body)
+      const response = await createUserService(req.body)
       
-    //   endpointResponse({
-    //     res,
-    //     message: `user created`,
-    //     body: response,
-    //   })
-    // } catch (error) {
-    //   console.log(error)
-    //   const httpError = createHttpError(
-    //     error.statusCode,
-    //     `[Error retrieving index] - [index - GET]: ${error.message}`,
-    //   )
-    //   next(httpError)
-    // }
+      endpointResponse({
+        res,
+        message: `user created`,
+        body: response,
+      })
+    } catch (error) {
+      console.log(error)
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
   })
 
   
