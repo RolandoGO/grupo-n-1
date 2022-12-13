@@ -1,11 +1,23 @@
 
-const bcrypt = require('bcrypt');
-const{ErrorObject} = require("../helpers/error")
 const {User} = require("../database/models")
+const {ErrorObject} = require("../helpers/error")
+const bcrypt = require('bcrypt');
+
 
 module.exports = {
+//service for getting the user by the id, if not found throw error
+    getUserDataService: async (id)=>{
 
-    createUserService:async (data)=>{
+        const user = await User.findOne({where: { id }});
+      
+        if(!response){
+        throw new ErrorObject("no user found with that id", 404)
+        }
+
+        return user
+    },
+    
+     createUserService:async (data)=>{
        
         const {email} = data
         //checking if the user EMAIL is already in the database 
@@ -32,7 +44,16 @@ module.exports = {
         return data
 
     }
+    
+    
 }
+
+
+
+
+   
+
+
 
 
 
