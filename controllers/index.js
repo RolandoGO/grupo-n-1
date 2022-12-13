@@ -3,10 +3,9 @@ const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 const {deleteTransactionService} = require("../service/transactionService")
 
-// example of a controller. First call the service, then build the controller method
 module.exports = {
 
-  
+  //controller for delete transaction
   deleteTransaction: catchAsync(async (req, res, next) => {
 
     
