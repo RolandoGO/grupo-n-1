@@ -90,7 +90,8 @@ module.exports = {
         `[Error retrieving index] - [index - GET]: ${error.message}`,
       )
       next(httpError)
-    },
+    }
+  }),
     
     //controller to update user
     updateUser:  catchAsync( async (req,res,next)=>{
