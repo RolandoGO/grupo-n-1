@@ -1,4 +1,3 @@
-
 const {User} = require("../database/models")
 const {ErrorObject} = require("../helpers/error")
 const bcrypt = require('bcrypt');
@@ -16,6 +15,8 @@ module.exports = {
 
         return user
     },
+    
+    //service that check email duplicate, hash password and create user
     
      createUserService:async (data)=>{
        
@@ -42,6 +43,22 @@ module.exports = {
     getUsersService: async ()=>{
         const data = await User.findAll({attributes:["firstName", "lastName", "email", "createdAt"]})
         return data
+
+    },
+    
+    
+    //update user service
+     updateUserService: async (id)=>{
+
+        
+        const user = await User.findOne({where:{id}})
+      
+        if(!user){
+            throw new ErrorObject("user not found", 404)
+        }
+
+        //update user here:
+        return user
 
     }
     
