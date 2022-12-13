@@ -1,5 +1,4 @@
-
-const {createUser,updateUser} = require("../controllers/index")
+const {createUser,updateUser, deleteUser} = require("../controllers/index")
 const { validationMiddleware } = require('../middlewares')
 const  schema  = require('../schemas');
 const router = express.Router()
@@ -8,8 +7,8 @@ const router = express.Router()
 router.post("/", schema.userSchema, validationMiddleware, createUser)
 //route for update user
 router.put("/:id", updateUser)
-
-
+//route for deleting user
+router.delete("/:id", deleteUser)
 
 
 module.exports = router

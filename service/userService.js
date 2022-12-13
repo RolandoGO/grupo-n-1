@@ -60,6 +60,18 @@ module.exports = {
         //update user here:
         return user
 
+    },
+  
+  //service for deleting user
+  deleteUserService: async (userId)=>{
+
+        const user = await User.findOne({where:{id:userId}})
+
+        if(!user){
+            throw new ErrorObject("user not found with that id")
+        }
+        
+        await user.destroy()
     }
     
     
@@ -69,6 +81,7 @@ module.exports = {
 
 
    
+
 
 
 
