@@ -3,8 +3,7 @@ const {User} = require("../database/models")
 const {ErrorObject} = require("../helpers/error")
 
 module.exports = {
-
-    //Login service 
+//login service
     loginService:async (data)=>{
 
         const {password, email} = data
