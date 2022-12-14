@@ -1,10 +1,14 @@
 const express = require('express')
-const { getTransactions, createTransaction } = require("../controllers/index")
+const { getTransactions, createTransaction, getOneTransaction } = require("../controllers/index")
 const { validationMiddleware } = require('../middlewares')
 const  schema  = require('../schemas');
 const router = express.Router()
 
-router.get("/", getTransactions)
+
 router.post("/", schema.transactionSchema, validationMiddleware, createTransaction)
+router.get("/", getTransactions)
+router.get("/:id",getOneTransaction)
+
+
 
 module.exports = router

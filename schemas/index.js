@@ -1,5 +1,6 @@
 const { checkSchema } = require('express-validator');
 
+
 const userSchema = checkSchema({
     firstName: {
         notEmpty: {
@@ -48,7 +49,9 @@ const userSchema = checkSchema({
 
   const schema = {
     userSchema,
-    transactionSchema
+    transactionSchema,
+
   }
+
 
 module.exports = schema
