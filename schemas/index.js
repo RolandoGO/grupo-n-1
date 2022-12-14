@@ -23,8 +23,32 @@ const userSchema = checkSchema({
     }
   })
 
+  const transactionSchema = checkSchema({
+    amount: {
+        notEmpty: {
+        errorMessage: "amount is required"
+        }
+    },
+    userId: {
+      notEmpty: {
+        errorMessage: "userId is required"
+        }
+    },
+    categoryId: {
+      notEmpty: true,
+      errorMessage: "categoryId is required"
+    },
+    date: {
+      notEmpty: {
+        errorMessage: "date is required"
+        }
+      
+    }
+  })
+
   const schema = {
     userSchema,
+    transactionSchema
   }
 
 module.exports = schema
