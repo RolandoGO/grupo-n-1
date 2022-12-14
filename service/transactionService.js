@@ -1,8 +1,11 @@
 const {Transaction} = require("../database/models")
 const {ErrorObject} =   require("../helpers/error")
 
-module.exports = {
-
+module.exports ={
+    getTransactionsService: async ()=>{
+        const data = await Transaction.findAll({})
+        return data
+    },
     //service for deleting transaction, first finding if the transaction exist then deleting it
     deleteTransactionService: async (id)=>{
 
@@ -12,9 +15,5 @@ module.exports = {
         }
 
         return await transaction.destroy()
-        
-
     }
-
-
 }
