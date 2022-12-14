@@ -25,10 +25,11 @@ module.exports = {
   getOneTransaction: catchAsync(async (req, res, next) => {
 
     try {
-      const response = await getTransactionService(req.params.id) || ''
+      const response = await getTransactionService(req.params.id)
+      
       endpointResponse({
         res,
-        message: `Transactions retrieved successfully, there are ${ response.length } transactions in the database`,
+        message: `Transaction retrieved successfully`,
         body: response,
       })
     } catch (error) {
