@@ -1,8 +1,11 @@
 const {Transaction} = require("../database/models")
 const {ErrorObject} =   require("../helpers/error")
 
-module.exports = {
-
+module.exports ={
+    getTransactionsService: async ()=>{
+        const data = await Transaction.findAll({})
+        return data
+    },
     updateTransactionService: async (id, data)=>{
 
        
@@ -16,15 +19,7 @@ module.exports = {
 
             //create update here.
 
-        // await transaction.update(data, {});
-        
-        
-        
-        
-
-        
+        // await transaction.update(data, {});       
 
     }
-
-
 }
