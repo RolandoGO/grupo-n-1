@@ -1,7 +1,7 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const { updateTransactionService, getTransactionsService, getTransactionService  } = require("../service/transactionService")
+const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
 const {getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService} = require("../service/userService")
 
 module.exports = {
@@ -46,6 +46,24 @@ module.exports = {
       next(httpError)
     }
   }),
+  
+  createTransaction: catchAsync(async (req, res, next) => {
+    try {
+      const response = await createTransactionService(req.body)
+      endpointResponse({
+        res,
+        message: `Transactions created successfully`,
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error creating index] - [index - POST]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
 
   getOneTransaction: catchAsync(async (req, res, next) => {
 

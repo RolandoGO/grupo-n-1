@@ -1,23 +1,5 @@
 const { checkSchema } = require('express-validator');
 
-const transactionSchema = checkSchema({
-    user: {
-      notEmpty: true,
-      errorMessage: "add user id"
-    },
-    categorie: {
-      notEmpty: true,
-      errorMessage: "add categorie id"
-    },
-    date: {
-      notEmpty: true,
-      errorMessage: "date field cannot be empty"
-    },
-    amount: {
-      notEmpty: true,
-      errorMessage: "amount field cannot be empty"
-    },
-  })
 
 const userSchema = checkSchema({
     firstName: {
@@ -42,9 +24,33 @@ const userSchema = checkSchema({
     }
   })
 
+  const transactionSchema = checkSchema({
+    amount: {
+        notEmpty: {
+        errorMessage: "amount is required"
+        }
+    },
+    userId: {
+      notEmpty: {
+        errorMessage: "userId is required"
+        }
+    },
+    categoryId: {
+      notEmpty: true,
+      errorMessage: "categoryId is required"
+    },
+    date: {
+      notEmpty: {
+        errorMessage: "date is required"
+        }
+      
+    }
+  })
+
   const schema = {
     userSchema,
-  transactionSchema,
+    transactionSchema,
+
   }
 
 
