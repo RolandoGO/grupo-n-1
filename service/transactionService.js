@@ -38,7 +38,7 @@ module.exports ={
 
             //create update here.
 
-        // await transaction.update(data, {});       
+        await Transaction.update(data, {where:{id}});       
 
 
     }

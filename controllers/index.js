@@ -49,6 +49,7 @@ module.exports = {
     }
   }),
   
+  //controller for creating one transaction
   createTransaction: catchAsync(async (req, res, next) => {
     try {
       const response = await createTransactionService(req.body)
@@ -66,7 +67,7 @@ module.exports = {
     }
   }),
 
-
+//controller for getting one transaction
   getOneTransaction: catchAsync(async (req, res, next) => {
 
     try {
@@ -159,14 +160,17 @@ module.exports = {
   //controller to update user
   updateUser: catchAsync(async (req, res, next) => {
 
+    const {id} = req.params
+    const {body:data} = req
+
     try {
 
-      const response = await updateUserService(req.params.id)
+      const response = await updateUserService(id, data)
 
 
       endpointResponse({
         res,
-        message: `user found`,
+        message: `user updated`,
         body: response,
       })
     }
@@ -200,6 +204,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //get all categories
   getCategories: catchAsync(async (req, res, next) => {
     try {
       const response = await getCategoriesService()  || ''
@@ -218,6 +224,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //get categorie controller
   getCategory: catchAsync(async (req, res, next) => {
 
     try {
@@ -238,6 +246,7 @@ module.exports = {
     }
   }),
 
+//create categorie controller
   createCategory: catchAsync(async (req, res, next) => {
     try {
       const response = await createCategoryService(req.body)
@@ -255,6 +264,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //update categorie controller
   updateCategory: catchAsync(async (req, res, next) => {
 
     try {

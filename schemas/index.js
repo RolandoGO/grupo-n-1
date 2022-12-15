@@ -1,5 +1,6 @@
 const { checkSchema } = require('express-validator');
 
+//schemas for middleware to use in validation
 
 const userSchema = checkSchema({
     firstName: {
