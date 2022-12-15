@@ -2,11 +2,11 @@ const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
-const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
+const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService,deleteTransactionService  } = require("../service/transactionService")
 const {getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService} = require("../service/userService")
 
-
 module.exports = {
+
 
   //controller that passes id and body as data to the service for update the transaction
   updateTransaction: catchAsync(async (req, res, next) => {
@@ -30,6 +30,7 @@ module.exports = {
     }
   }),
 
+
 //transaction controller for getting all transactions
   getTransactions: catchAsync(async (req, res, next) => {
 
@@ -48,6 +49,27 @@ module.exports = {
       next(httpError)
     }
   }),
+  
+    //controller for delete transaction
+  deleteTransaction: catchAsync(async (req, res, next) => {
+
+    
+    try {
+      const response = await deleteTransactionService(req.params.id)
+      endpointResponse({
+        res,
+        message: 'transaction delete successfully',
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
   
   //controller for creating one transaction
   createTransaction: catchAsync(async (req, res, next) => {
@@ -89,6 +111,7 @@ module.exports = {
 
 
   //controller to create user passing the properties to the service
+
   createUser: catchAsync(async (req, res, next) => {
 
     try {
