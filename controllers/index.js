@@ -3,11 +3,11 @@ const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
 const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
-const {getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService} = require("../service/userService")
+const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
+const { uploadImageService } = require('../service/uploadService')
 
 
 module.exports = {
-
   //controller that passes id and body as data to the service for update the transaction
   updateTransaction: catchAsync(async (req, res, next) => {
 
@@ -37,7 +37,7 @@ module.exports = {
       const response = await getTransactionsService() || ''
       endpointResponse({
         res,
-        message: `Transactions retrieved successfully, there are ${response.length} transactions in the database`,
+        message: `Transactions retrieved successfully, there are ${response?.length} transactions in the database`,
         body: response,
       })
     } catch (error) {
@@ -119,7 +119,7 @@ module.exports = {
       const response = await getUsersService()
       endpointResponse({
         res,
-        message: `Users retrieved successfully, there are ${response.length} users in the database`,
+        message: `Users retrieved successfully, there are ${response?.length} users in the database`,
         body: response,
       })
     } catch (error) {
@@ -205,7 +205,7 @@ module.exports = {
       const response = await getCategoriesService()  || ''
       endpointResponse({
         res,
-        message: `Categories retrieved successfully, there are ${response.length} categories in the database`,
+        message: `Categories retrieved successfully, there are ${response?.length} categories in the database`,
         body: response,
       })
     } catch (error) {
@@ -272,6 +272,22 @@ module.exports = {
       const httpError = createHttpError(
         error.statusCode,
         `[Error updating index] - [index - PUT]: ${error.message}`,
+      )
+      next(httpError) 
+    }
+  }),
+  uploadFile: catchAsync(async (req, res, next) => {
+    try {
+      uploadImageService(req.file)
+      endpointResponse({
+        res,
+        message: `Image uploaded`,
+      })
+    }
+    catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error uploading index] - [index - POST]: ${error.message}`,
       )
       next(httpError)
     }
