@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt")
+const db = require("../database/models")
 const {User} = require("../database/models")
 const {ErrorObject} = require("../helpers/error")
 
@@ -8,28 +9,24 @@ module.exports = {
 
         const {password, email} = data
 
-        //find email and compare
+        //find and compare emails
         const dbUser = await User.findOne({where:{email}})
 
-        if(!findEmail){
-            throw new ErrorObject("invalid credentials", 400)
+        if(!dbUser){
+            throw new ErrorObject("invalid credentials", 401, {ok:false})
         }
+        const dbPassword = dbUser.dataValues.password
+       
         
-        //compare passwords
-        const passwordCompare = bcrypt.compare(password, dbUser.password, function(err, result) {
-            if (err) {
-                //en caso de error devolver {ok:false}
-                return {ok:false}
-            }
-
-            //en caso de exito devolver al usuario
-            return dbUser
-
-        });
-
-        return passwordCompare
-        
+        // compare passwords
+        const passwordCompare = bcrypt.compareSync(password, dbPassword)
 
         
+        if(!passwordCompare){
+            throw new ErrorObject("invalid credentials", 401, {ok:false})
+
+        }
+//in case of successfull compareson return user
+        return dbUser.dataValues
     }
 }

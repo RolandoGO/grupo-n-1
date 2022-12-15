@@ -15,7 +15,6 @@ module.exports = {
           const response = await loginService(req.body)
           endpointResponse({
             res,
-            message: 'user login',
             body: response,
           })
         } catch (error) {
@@ -23,6 +22,8 @@ module.exports = {
             error.statusCode,
             `[Error retrieving index] - [index - GET]: ${error.message}`,
           )
+
+          
           next(httpError)
         }
       })
