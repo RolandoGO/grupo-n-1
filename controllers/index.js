@@ -1,8 +1,10 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
+const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
 const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
 const {getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService} = require("../service/userService")
+
 
 module.exports = {
 
@@ -85,31 +87,31 @@ module.exports = {
   }),
 
 
-//controller to create user passing the properties to the service
+  //controller to create user passing the properties to the service
   createUser: catchAsync(async (req, res, next) => {
 
     try {
-      
+
       const response = await createUserService(req.body)
-      
+
       endpointResponse({
         res,
         message: `user created`,
         body: response,
       })
     } catch (error) {
-
-
-      const httpError = createHttpError(
+    
+    const httpError = createHttpError(
         error.statusCode,
         `[Error retrieving index] - [index - GET]: ${error.message}`,
       )
       next(httpError)
     }
 
-}),
+  }),
 
- //controller to get all users 
+
+  //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
 
 
@@ -130,7 +132,7 @@ module.exports = {
       next(httpError)
     }
   }),
-  
+
   //controller to get a singular user data
   getUserData: catchAsync(async (req, res, next) => {
 
@@ -142,7 +144,7 @@ module.exports = {
         message: `user found`,
         body: response,
       })
-    } 
+    }
     catch (error) {
 
 
@@ -153,36 +155,36 @@ module.exports = {
       next(httpError)
     }
   }),
-    
-    //controller to update user
-    updateUser:  catchAsync( async (req,res,next)=>{
-    
-      try {
-  
-        const response = await updateUserService(req.params.id)
-  
-  
-        endpointResponse({
-          res,
-          message: `user found`,
-          body: response,
-        })
-      } 
-      
-      catch (error) {
-        const httpError = createHttpError(
-          error.statusCode,
-          `[Error retrieving index] - [index - GET]: ${error.message}`,
-        )
-        next(httpError)
-      }
-    }),
-      
-      
-      //controller for deleting user
-      deleteUser: catchAsync(async (req, res, next) => {
 
-    
+  //controller to update user
+  updateUser: catchAsync(async (req, res, next) => {
+
+    try {
+
+      const response = await updateUserService(req.params.id)
+
+
+      endpointResponse({
+        res,
+        message: `user found`,
+        body: response,
+      })
+    }
+
+    catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+
+  //controller for deleting user
+  deleteUser: catchAsync(async (req, res, next) => {
+
+
     try {
       const response = await deleteUserService(req.params.id)
       endpointResponse({
@@ -197,7 +199,89 @@ module.exports = {
       )
       next(httpError)
     }
-  })
+  }),
+  getCategories: catchAsync(async (req, res, next) => {
+    try {
+      const response = await getCategoriesService()  || ''
+      endpointResponse({
+        res,
+        message: `Categories retrieved successfully, there are ${response.length} categories in the database`,
+        body: response,
+      })
+    } catch (error) {
+
+
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+  getCategory: catchAsync(async (req, res, next) => {
+
+    try {
+      const response = await getCategoryService(req.params.id);
+
+      endpointResponse({
+        res,
+        message: `category found`,
+        body: response,
+      })
+    }
+    catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+  createCategory: catchAsync(async (req, res, next) => {
+    try {
+      const response = await createCategoryService(req.body)
+      endpointResponse({
+        res,
+        message: `category created`,
+        body: response,
+      })
+    } catch (error) {
+
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error creating index] - [index - POST]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+  updateCategory: catchAsync(async (req, res, next) => {
+
+    try {
+
+      const response = await updateCategoryService(req.params.id, req.body)
+
+
+      endpointResponse({
+        res,
+        message: `category updated`,
+      })
+    }
+
+    catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error updating index] - [index - PUT]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+
+
+
+
+
 
 
 }
