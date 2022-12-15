@@ -1,21 +1,80 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const { getTransactionsService } = require("../service/transactionService")
-const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
+const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
+const {getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService} = require("../service/userService")
 
 
 module.exports = {
 
-  //transaction controller for getting all transactions
+  //controller that passes id and body as data to the service for update the transaction
+  updateTransaction: catchAsync(async (req, res, next) => {
+
+    const {id} =req.params
+    const {body:data} = req
+    
+    try {
+      const response = await updateTransactionService(id,data)
+      endpointResponse({
+        res,
+        message: 'transaction update successfully',
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+//transaction controller for getting all transactions
   getTransactions: catchAsync(async (req, res, next) => {
 
     try {
-      const response = await getTransactionsService()
+      const response = await getTransactionsService() || ''
       endpointResponse({
         res,
         message: `Transactions retrieved successfully, there are ${response.length} transactions in the database`,
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+  
+  createTransaction: catchAsync(async (req, res, next) => {
+    try {
+      const response = await createTransactionService(req.body)
+      endpointResponse({
+        res,
+        message: `Transactions created successfully`,
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error creating index] - [index - POST]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+
+  getOneTransaction: catchAsync(async (req, res, next) => {
+
+    try {
+      const response = await getTransactionService(req.params.id)
+      
+      endpointResponse({
+        res,
+        message: `Transaction retrieved successfully`,
         body: response,
       })
     } catch (error) {
@@ -41,17 +100,20 @@ module.exports = {
         body: response,
       })
     } catch (error) {
-
-      const httpError = createHttpError(
+    
+    const httpError = createHttpError(
         error.statusCode,
         `[Error retrieving index] - [index - GET]: ${error.message}`,
       )
       next(httpError)
     }
+
   }),
+
 
   //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
+
 
     try {
       const response = await getUsersService()
