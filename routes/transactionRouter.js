@@ -1,5 +1,5 @@
 const express = require('express')
-const { getTransactions, createTransaction, getOneTransaction, updateTransaction, deleteTransaction } = require("../controllers/index")
+const { getTransactions, createTransaction, getOneTransaction, updateTransaction, deleteTransaction} = require("../controllers/index")
 const { validationMiddleware } = require('../middlewares')
 const  schema  = require('../schemas');
 const router = express.Router()

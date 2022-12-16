@@ -33,10 +33,32 @@ module.exports = {
   getTransactions: catchAsync(async (req, res, next) => {
     try {
       const { page } = req.query;
-      const response = await getTransactionsService(page? page : 0 ,req.originalUrl) || ''
+      const {data} = await getTransactionsService(page? page : 0 ,req) || ''
+      
       endpointResponse({
         res,
-        message: `Transactions retrieved successfully, there are ${response?.length} transactions in the database`,
+        message: `Transactions retrieved successfully, there are ${ data.length} transactions in the database`,
+        body: data,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+  //transaction controller for getting all transactions form one user
+  getUserTransactions: catchAsync(async (req, res, next) => {
+
+    const queryId = req.query
+    try {
+      
+      const response = await getTransactionsService(queryId)
+      endpointResponse({
+        res,
+        message: `Transactions retrieved successfully`,
         body: response,
       })
     } catch (error) {
