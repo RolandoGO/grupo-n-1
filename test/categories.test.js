@@ -51,16 +51,4 @@ describe("Route categories", () => {
 
 });
 
-
-// describe('get all countries: ',()=>{
-//     it('should get all countries', (done) => {
-//     chai.request(url)
-//     .get('/countries')
-//     .end( function(err,res){
-//     console.log(res.body)
-//     expect(res).to.have.status(200);
-//     done();
-//     });
-//     });
-//    });
    
