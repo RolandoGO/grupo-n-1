@@ -33,9 +33,9 @@ module.exports = {
 
 //transaction controller for getting all transactions
   getTransactions: catchAsync(async (req, res, next) => {
-
     try {
-      const response = await getTransactionsService() || ''
+      const { page } = req.query;
+      const response = await getTransactionsService(page,req.originalUrl) || ''
       endpointResponse({
         res,
         message: `Transactions retrieved successfully, there are ${response.length} transactions in the database`,
@@ -137,13 +137,13 @@ module.exports = {
 
   //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
-
-
     try {
-      const response = await getUsersService()
+      const { page } = req.query;
+      const response = await getUsersService(page, req.originalUrl)
       endpointResponse({
         res,
         message: `Users retrieved successfully, there are ${response.length} users in the database`,
+        page: page ? page : 0,
         body: response,
       })
     } catch (error) {

@@ -3,9 +3,19 @@ const {ErrorObject} = require("../helpers/error")
 
 module.exports ={
 
-    getTransactionsService: async ()=>{
-        const data = await Transaction.findAll({})
-        return data
+    getTransactionsService: async (page, url)=>{
+        url = url.slice(0, url.length - page.toString().length);
+        const limit = 10;
+        const offset = page ? page * 10 : 0 * 10;
+        const data = await Transaction.findAll({
+            limit,
+            offset
+        });
+        return {
+            data,
+            previousPage: page ? `${url}${Number(page) - 1}` : null,
+            nextPage: data.length < 10 ? null:`${url}${Number(page) + 1}`
+        };
     },
 
     //service for deleting transaction, first finding if the transaction exist then deleting it
