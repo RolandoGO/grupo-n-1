@@ -307,6 +307,8 @@ module.exports = {
       next(httpError) 
     }
   }),
+
+  //controler for image upload
   uploadFile: catchAsync(async (req, res, next) => {
     try {
       endpointResponse({
