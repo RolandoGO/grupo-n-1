@@ -3,6 +3,7 @@ const {ErrorObject} = require("../helpers/error")
 const multer  = require('multer')
 const uniqid = require('uniqid')
 const {jwtMiddlewareVerify} = require("./jwt")
+const {Role} = require("../database/models")
 
 
 
@@ -56,9 +57,44 @@ const authUserMiddleware = (req,res,next)=>{
 
   //if the token is valid, send the token data decode and verify in the user propertie inside the body
   req.body.user = isTokenValid
+ 
   next()
   
   }
 
-module.exports = { validationMiddleware,uploadMiddleware, authUserMiddleware }
+  const ownershipMiddleware = async(req,res,next)=>{
+
+    const currentUser = req.body.user
+    const {id} =req.params
+
+    if(!id){
+      return res.status(400).json({ errors: "need an id in params" });
+
+    }
+
+     //checkin if the current user is client or admin
+     const call = await Role.findOne({where:{id:currentUser.roleId}})
+     const currentUserRole = call.name
+
+     
+      //if is the user is the same or is admin pass to the controller
+    if(Number(id) === currentUser.id || currentUserRole === "admin" ){ 
+      next()
+      return
+    }
+    
+//if the user is not the same as the id in the route or is not admin
+
+
+    return res.status(403).json({ errors: "not authorize" });
+
+
+
+   
+    
+  }
+
+
+
+module.exports = { validationMiddleware,uploadMiddleware, authUserMiddleware, ownershipMiddleware }
 

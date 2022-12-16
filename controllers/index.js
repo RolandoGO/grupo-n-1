@@ -209,8 +209,6 @@ module.exports = {
 
   //controller for deleting user
   deleteUser: catchAsync(async (req, res, next) => {
-
-
     try {
       const response = await deleteUserService(req.params.id)
       endpointResponse({
