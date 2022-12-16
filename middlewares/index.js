@@ -14,7 +14,7 @@ const validationMiddleware = function (req, res, next) {
     next()
 }
 
-
+//middleware for uploadin images
 const uploadMiddleware = multer({ 
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
@@ -33,6 +33,21 @@ const uploadMiddleware = multer({
       }
     } 
 }).single('file')
+
+
+const authUserMiddleware = (req,res,next)=>{
+
+  //check if the token is in the header auth
+  const headerAuth = req.headers["authorization"]
+  //token is after the Bearer word
+  const token = headerAuth && headerAuth.split(" ")[1]
+
+  if(!token){
+    return res.status(403).json({ errors: "no token found" });
+
+  }
+
+}
 
 module.exports = { validationMiddleware,uploadMiddleware }
 
