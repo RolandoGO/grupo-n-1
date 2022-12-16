@@ -33,7 +33,7 @@ module.exports = {
   getTransactions: catchAsync(async (req, res, next) => {
     try {
       const { page } = req.query;
-      const response = await getTransactionsService(page,req.originalUrl) || ''
+      const response = await getTransactionsService(page? page : 0 ,req.originalUrl) || ''
       endpointResponse({
         res,
         message: `Transactions retrieved successfully, there are ${response?.length} transactions in the database`,
@@ -137,7 +137,7 @@ module.exports = {
   getUsers: catchAsync(async (req, res, next) => {
     try {
       const { page } = req.query;
-      const response = await getUsersService(page, req.originalUrl)
+      const response = await getUsersService(page? page : 0 , req.originalUrl)
       endpointResponse({
         res,
         message: `Users retrieved successfully, there are ${response?.length} users in the database`,
