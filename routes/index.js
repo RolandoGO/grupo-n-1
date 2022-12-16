@@ -3,6 +3,8 @@ const transactionRouter = require("./transactionRouter")
 const userRouter = require("./userRouter")
 const authRouter = require("./authRouter")
 const categoryRouter = require("./categoryRouter")
+const uploadRouter = require("./uploadRouter")
+
 const router = express.Router()
 
 //Router file for redirecting to the correct entity
@@ -16,6 +18,7 @@ router.use("/users", userRouter)
 router.use("/auth", authRouter)
 //router for categories
 router.use("/categories", categoryRouter)
+router.use("/uploads", uploadRouter)
 
 
 module.exports = router
