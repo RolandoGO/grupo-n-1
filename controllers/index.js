@@ -135,9 +135,10 @@ module.exports = {
 
   //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
+    
     try {
       const { page } = req.query;
-      const response = await getUsersService(page, req.originalUrl)
+      const response = await getUsersService(page? page : 0, req.originalUrl)
       endpointResponse({
         res,
         message: `Users retrieved successfully, there are ${response?.length} users in the database`,
