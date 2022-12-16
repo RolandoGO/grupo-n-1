@@ -1,7 +1,8 @@
 const { checkSchema } = require('express-validator');
 
 
-//schema for user validation route
+//schemas for middleware to use in validation
+
 const userSchema = checkSchema({
     firstName: {
         notEmpty: {
@@ -25,6 +26,7 @@ const userSchema = checkSchema({
     }
   })
 
+
   //schema for auth validation route
   const authSchema = checkSchema({
     
@@ -36,14 +38,44 @@ const userSchema = checkSchema({
       notEmpty: {
         errorMessage: "password field cannot be empty"
         }
+      }
+        
+   })
+
+
+  const transactionSchema = checkSchema({
+    amount: {
+        notEmpty: {
+        errorMessage: "amount is required"
+        }
+    },
+    userId: {
+      notEmpty: {
+        errorMessage: "userId is required"
+        }
+    },
+    categoryId: {
+      notEmpty: true,
+      errorMessage: "categoryId is required"
+    },
+    date: {
+      notEmpty: {
+        errorMessage: "date is required"
+
+        }
       
     }
   })
 
 
+
+
   const schema = {
     userSchema,
-    authSchema,
+    transactionSchema,
+    authSchema
+
   }
+
 
 module.exports = schema

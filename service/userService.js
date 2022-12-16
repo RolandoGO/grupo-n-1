@@ -48,7 +48,7 @@ module.exports = {
     
     
     //update user service
-     updateUserService: async (id)=>{
+     updateUserService: async (id,data)=>{
 
         
         const user = await User.findOne({where:{id}})
@@ -58,12 +58,11 @@ module.exports = {
         }
 
         //update user here:
-        return user
-
+        await User.update(data, { where: { id } })
     },
   
-  //service for deleting user
-  deleteUserService: async (userId)=>{
+    //service for deleting user
+    deleteUserService: async (userId)=>{
 
         const user = await User.findOne({where:{id:userId}})
 
