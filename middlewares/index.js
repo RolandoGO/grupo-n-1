@@ -36,6 +36,7 @@ const uploadMiddleware = multer({
 }).single('file')
 
 
+//middleware for checking token in authorization header
 const authUserMiddleware = (req,res,next)=>{
 
   //check if the token is in the header auth
