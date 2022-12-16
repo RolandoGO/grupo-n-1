@@ -29,7 +29,7 @@ module.exports = {
     },
 
      updateCategoryService: async (id, data)=>{
-        console.log(id, data)
+
         const category = await Category.findOne({ where:{ id } })
         if (!category){
             throw new ErrorObject("No category found with that id", 404)

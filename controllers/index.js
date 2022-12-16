@@ -6,7 +6,6 @@ const { updateTransactionService, getTransactionService, getTransactionsService,
 const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
 const { uploadImageService } = require('../service/uploadService')
 
-
 module.exports = {
   //controller that passes id and body as data to the service for update the transaction
   updateTransaction: catchAsync(async (req, res, next) => {
@@ -30,6 +29,7 @@ module.exports = {
     }
   }),
 
+
 //transaction controller for getting all transactions
   getTransactions: catchAsync(async (req, res, next) => {
 
@@ -49,6 +49,28 @@ module.exports = {
     }
   }),
   
+    //controller for delete transaction
+  deleteTransaction: catchAsync(async (req, res, next) => {
+
+    
+    try {
+      const response = await deleteTransactionService(req.params.id)
+      endpointResponse({
+        res,
+        message: 'transaction delete successfully',
+        body: response,
+      })
+    } catch (error) {
+      const httpError = createHttpError(
+        error.statusCode,
+        `[Error retrieving index] - [index - GET]: ${error.message}`,
+      )
+      next(httpError)
+    }
+  }),
+
+  
+  //controller for creating one transaction
   createTransaction: catchAsync(async (req, res, next) => {
     try {
       const response = await createTransactionService(req.body)
@@ -66,7 +88,7 @@ module.exports = {
     }
   }),
 
-
+//controller for getting one transaction
   getOneTransaction: catchAsync(async (req, res, next) => {
 
     try {
@@ -88,6 +110,7 @@ module.exports = {
 
 
   //controller to create user passing the properties to the service
+
   createUser: catchAsync(async (req, res, next) => {
 
     try {
@@ -159,14 +182,17 @@ module.exports = {
   //controller to update user
   updateUser: catchAsync(async (req, res, next) => {
 
+    const {id} = req.params
+    const {body:data} = req
+
     try {
 
-      const response = await updateUserService(req.params.id)
+      const response = await updateUserService(id, data)
 
 
       endpointResponse({
         res,
-        message: `user found`,
+        message: `user updated`,
         body: response,
       })
     }
@@ -200,6 +226,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //get all categories
   getCategories: catchAsync(async (req, res, next) => {
     try {
       const response = await getCategoriesService()  || ''
@@ -218,6 +246,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //get categorie controller
   getCategory: catchAsync(async (req, res, next) => {
 
     try {
@@ -238,6 +268,7 @@ module.exports = {
     }
   }),
 
+//create categorie controller
   createCategory: catchAsync(async (req, res, next) => {
     try {
       const response = await createCategoryService(req.body)
@@ -255,6 +286,8 @@ module.exports = {
       next(httpError)
     }
   }),
+
+  //update categorie controller
   updateCategory: catchAsync(async (req, res, next) => {
 
     try {

@@ -1,4 +1,3 @@
-
 const { Transaction } = require("../database/models")
 const {ErrorObject} = require("../helpers/error")
 
@@ -8,6 +7,18 @@ module.exports ={
         const data = await Transaction.findAll({})
         return data
     },
+
+    //service for deleting transaction, first finding if the transaction exist then deleting it
+    deleteTransactionService: async (id)=>{
+
+        const transaction = await Transaction.findOne({where:{id}})
+        
+        if(!transaction){
+            throw new ErrorObject("No Transaction was found with that id", 404)
+        }
+        return await transaction.destroy()
+    },
+
 
     createTransactionService: async (data)=>{
         const response = await Transaction.create(data)    
@@ -36,9 +47,9 @@ module.exports ={
             throw new ErrorObject("no transaction found", 404)
         }
 
-            //create update here.
+      //create update here.
 
-        // await transaction.update(data, {});       
+        await Transaction.update(data, {where:{id}});       
 
 
     }
