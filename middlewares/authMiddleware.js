@@ -1,11 +1,10 @@
 const bcrypt = require("bcrypt")
-const db = require("../database/models")
 const {User} = require("../database/models")
 const {ErrorObject} = require("../helpers/error")
 
 module.exports = {
-//login service
-    loginService:async (data)=>{
+//login 
+    loginMiddleware:async (data)=>{
 
         const {password, email} = data
 

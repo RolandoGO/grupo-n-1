@@ -1,7 +1,7 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const {loginService }= require("../service/authService")
+const {loginMiddleware }= require("../middlewares/authMiddleware")
 
 
 
