@@ -135,6 +135,7 @@ module.exports = {
 
   //controller to get all users 
   getUsers: catchAsync(async (req, res, next) => {
+    console.log(req.body.user)
     try {
       const { page } = req.query;
       const response = await getUsersService(page, req.originalUrl)

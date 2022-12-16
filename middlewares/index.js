@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const {ErrorObject} = require("../helpers/error")
 const multer  = require('multer')
 const uniqid = require('uniqid')
+const {jwtMiddlewareVerify} = require("./jwt")
 
 
 
@@ -44,10 +45,19 @@ const authUserMiddleware = (req,res,next)=>{
 
   if(!token){
     return res.status(403).json({ errors: "no token found" });
+  }
+//if there is a token check if the token is valid
+  const isTokenValid = jwtMiddlewareVerify(token)
 
+  if(!isTokenValid){
+    return res.status(403).json({ errors: "invalid token" });
   }
 
-}
+  //if the token is valid, send the token data decode and verify in the user propertie inside the body
+  req.body.user = isTokenValid
+  next()
+  
+  }
 
-module.exports = { validationMiddleware,uploadMiddleware }
+module.exports = { validationMiddleware,uploadMiddleware, authUserMiddleware }
 
