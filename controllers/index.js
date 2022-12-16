@@ -4,7 +4,6 @@ const { catchAsync } = require('../helpers/catchAsync')
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
 const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
 const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
-const { uploadImageService } = require('../service/uploadService')
 
 module.exports = {
   //controller that passes id and body as data to the service for update the transaction
@@ -310,7 +309,6 @@ module.exports = {
   }),
   uploadFile: catchAsync(async (req, res, next) => {
     try {
-      uploadImageService(req.file)
       endpointResponse({
         res,
         message: `Image uploaded`,
