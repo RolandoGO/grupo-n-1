@@ -1,8 +1,9 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
-const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService } = require('../service/categoriesService')
-const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService, deleteTransactionService  } = require("../service/transactionService")
+
+const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService, deleteCategoryService } = require('../service/categoriesService')
+const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
 const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
 
 module.exports = {
@@ -308,6 +309,26 @@ module.exports = {
     }
   }),
 
+    //controller for deleting category
+    deleteCategory: catchAsync(async (req, res, next) => {
+
+
+      try {
+        const response = await deleteCategoryService(req.params.id)
+        endpointResponse({
+          res,
+          message: 'category deleted',
+          body: response,
+        })
+      } catch (error) {
+        const httpError = createHttpError(
+          error.statusCode,
+          `[Error deleting index] - [index - DELETE]: ${error.message}`,
+        )
+        next(httpError)
+      }
+    }),
+
   //controler for image upload
   uploadFile: catchAsync(async (req, res, next) => {
     try {
@@ -324,13 +345,6 @@ module.exports = {
       next(httpError)
     }
   }),
-
-
-
-
-
-
-
 
 }
 
