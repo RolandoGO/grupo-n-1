@@ -38,6 +38,17 @@ module.exports = {
         await Category.update(data, { where: { id } })
 
     },  
+    deleteCategoryService: async (id)=>{
+
+        const category = await Category.findOne({where:{id}})
+
+        if(!category){
+            throw new ErrorObject("category not found with that id")
+        }
+        
+        await category.destroy()
+    }
+        
 }
 
 
