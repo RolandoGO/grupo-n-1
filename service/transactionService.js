@@ -17,7 +17,7 @@ module.exports ={
             throw new ErrorObject("No Transaction was found with that id", 404)
         }
         return await transaction.destroy()
-    }
+    },
 
 
     createTransactionService: async (data)=>{
