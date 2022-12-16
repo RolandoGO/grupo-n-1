@@ -1,6 +1,7 @@
 const createHttpError = require('http-errors')
 const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
+
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService, deleteCategoryService } = require('../service/categoriesService')
 const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
 const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
@@ -33,7 +34,7 @@ module.exports = {
   getTransactions: catchAsync(async (req, res, next) => {
     try {
       const { page } = req.query;
-      const response = await getTransactionsService(page,req.originalUrl) || ''
+      const response = await getTransactionsService(page? page : 0 ,req.originalUrl) || ''
       endpointResponse({
         res,
         message: `Transactions retrieved successfully, there are ${response?.length} transactions in the database`,
@@ -137,7 +138,9 @@ module.exports = {
   getUsers: catchAsync(async (req, res, next) => {
     try {
       const { page } = req.query;
-      const response = await getUsersService(page, req.originalUrl)
+
+      const response = await getUsersService(page? page : 0 , req.originalUrl)
+
       endpointResponse({
         res,
         message: `Users retrieved successfully, there are ${response?.length} users in the database`,
@@ -207,8 +210,6 @@ module.exports = {
 
   //controller for deleting user
   deleteUser: catchAsync(async (req, res, next) => {
-
-
     try {
       const response = await deleteUserService(req.params.id)
       endpointResponse({
