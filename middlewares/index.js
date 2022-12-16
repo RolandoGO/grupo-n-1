@@ -5,6 +5,7 @@ const uniqid = require('uniqid')
 
 
 
+//middleware for checking fields working with the schema file.
 const validationMiddleware = function (req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -12,6 +13,7 @@ const validationMiddleware = function (req, res, next) {
     }
     next()
 }
+
 
 const uploadMiddleware = multer({ 
   storage: multer.diskStorage({
@@ -33,3 +35,4 @@ const uploadMiddleware = multer({
 }).single('file')
 
 module.exports = { validationMiddleware,uploadMiddleware }
+
