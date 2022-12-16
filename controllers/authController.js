@@ -12,7 +12,7 @@ module.exports = {
 
     
         try {
-          const response = await loginService(req.body)
+          const response = await loginMiddleware(req.body)
           endpointResponse({
             res,
             body: response,
