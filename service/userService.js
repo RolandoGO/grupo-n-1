@@ -40,13 +40,21 @@ module.exports = {
     },
     
     //service that returns an array of user objects whit the fields requeste, if there are no users it will be an empty array
-    getUsersService: async ()=>{
-        const data = await User.findAll({attributes:["firstName", "lastName", "email", "createdAt"]})
-        return data
-
+    getUsersService: async (page, url)=>{
+        url = url.slice(0, url.length - page.toString().length);
+        const limit = 10;
+        const offset = page ? page * 10 : 0 * 10;
+        const data = await User.findAll({
+            attributes:["firstName", "lastName", "email", "createdAt"],
+            limit,
+            offset,
+        });
+        return {
+                    data,
+                    previousPage: page ? `${url}${Number(page) - 1}` : null,
+                    nextPage: data.length < 10 ? null :`${url}${Number(page) + 1}`
+                };
     },
-    
-    
     //update user service
      updateUserService: async (id,data)=>{
 
