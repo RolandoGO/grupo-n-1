@@ -65,10 +65,10 @@ const authUserMiddleware = (req,res,next)=>{
   const ownershipMiddleware = async(req,res,next)=>{
 
     const currentUser = req.body.user
-    const {id} =req.params
+    const {id} =req.params || req.query
 
     if(!id){
-      return res.status(400).json({ errors: "need an id in params" });
+      return res.status(400).json({ errors: "need an id in params or query" });
 
     }
 
@@ -84,15 +84,8 @@ const authUserMiddleware = (req,res,next)=>{
     }
     
 //if the user is not the same as the id in the route or is not admin
-
-
-    return res.status(403).json({ errors: "not authorize" });
-
-
-
-   
-    
-  }
+return res.status(403).json({ errors: "not authorize" });
+}
 
 
 
