@@ -29,8 +29,7 @@ const router = express.Router()
  *                  type: integer
  *                  example: 200
  *                message:
- *                  type: string
- *                  example: All Transactions
+ *                  type: Transactions retrieved successfully, there are ${ data.length} transactions in the database
  *                body:
  *                  type: array
  *                  items:
@@ -57,8 +56,6 @@ const router = express.Router()
  *                        type: integer
  *                        format: int64
  *                        example: 1
- *      401:
- *        $ref: "#/components/responses/UnauthorizedError"
  */
 router.get("/", authUserMiddleware, ownershipMiddleware, getTransactions)
 //route to get one transaction
