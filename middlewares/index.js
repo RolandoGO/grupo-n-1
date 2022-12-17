@@ -3,8 +3,7 @@ const {ErrorObject} = require("../helpers/error")
 const multer  = require('multer')
 const uniqid = require('uniqid')
 const {jwtMiddlewareVerify} = require("./jwt")
-const {Role} = require("../database/models")
-
+const {Role, Transaction} = require("../database/models")
 
 
 //middleware for checking fields working with the schema file.
@@ -56,23 +55,26 @@ const authUserMiddleware = (req,res,next)=>{
   }
 
   //if the token is valid, send the token data decode and verify in the user propertie inside the body
-  req.body.user = isTokenValid
+  req.user = isTokenValid
  
   next()
   
   }
 
+
+
+  //middleware for checking if the id in params or querys are the same that the one of the current user, or if the current user is admin
   const ownershipMiddleware = async(req,res,next)=>{
 
-    const currentUser = req.body.user
-    const {id} =req.params || req.query
-
+    const currentUser = req.user
+    
     //checkin if the current user is client or admin
     const call = await Role.findOne({where:{id:currentUser.roleId}})
     const currentUserRole = call.name
-
+    const id = req.params.id || req.query.id
     
     if(id){ 
+      
       
       //if is the user is the same or is admin pass to the controller
         if(Number(id) === currentUser.id || currentUserRole === "admin" ){ 
@@ -95,12 +97,59 @@ const authUserMiddleware = (req,res,next)=>{
       return res.status(403).json({ errors: "not authorize" });
 
     }
+  }
 
-    
+
+//middleware for checking transaction routes
+const transactionMiddleware = async(req,res,next)=>{
+
+  const currentUser = req.user
+  const {id} =req.params
+  let currentUserRole;
+
+  if(!id){
+    return res.status(404).json({ errors: "id not found in the params" });
+
+  }
+
+  try{
+    //checkin if the current user is client or admin
+    const call = await Role.findOne({where:{id:currentUser.roleId}})
+    currentUserRole = call.name
+
+  }
+  catch{
+    return res.status(500).json({ errors: "role not found in the database" });
+
+  }
+
+  
+  try{
+    const transaction = await Transaction.findOne({where:{id}})
+
+    if(!transaction){
+      return res.status(404).json({ errors: "transaction not found" });
+
+    }
+
+    const userId_in_transaction = transaction.dataValues.userId
+
+    //if is the user is the same or is admin pass to the controller
+    if(Number(userId_in_transaction) === currentUser.id || currentUserRole === "admin" ){ 
+      next()
+      return
+    }
+    //   //if the user is not the same as the id in the route or is not admin
+      return res.status(403).json({ errors: "not authorize" });
+
+  }
+  catch{
+    return res.status(500).json({ errors: "error in the database" });
+
+  }
 
 }
 
 
-
-module.exports = { validationMiddleware,uploadMiddleware, authUserMiddleware, ownershipMiddleware }
+module.exports = { validationMiddleware,uploadMiddleware, authUserMiddleware, ownershipMiddleware, transactionMiddleware }
 

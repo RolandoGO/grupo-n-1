@@ -3,15 +3,18 @@ const { endpointResponse } = require('../helpers/success')
 const { catchAsync } = require('../helpers/catchAsync')
 
 const { getCategoriesService, getCategoryService, createCategoryService, updateCategoryService, deleteCategoryService } = require('../service/categoriesService')
-const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService  } = require("../service/transactionService")
+const { updateTransactionService, getTransactionService, getTransactionsService, createTransactionService, deleteTransactionService } = require("../service/transactionService")
 const { getUsersService, createUserService, getUserDataService, updateUserService, deleteUserService } = require("../service/userService")
 
 module.exports = {
   //controller that passes id and body as data to the service for update the transaction
   updateTransaction: catchAsync(async (req, res, next) => {
 
-    const {id} =req.params
-    const {body:data} = req
+    //addding the current user id to the transaction send
+    const userId = req.user.id
+    const data = req.body
+    data.userId = userId
+    const id = req.params.id
     
     try {
       const response = await updateTransactionService(id,data)
@@ -94,8 +97,14 @@ module.exports = {
   
   //controller for creating one transaction
   createTransaction: catchAsync(async (req, res, next) => {
+
+    //addding the current user id to the transaction send
+    const id = req.user.id
+    const data = req.body
+    data.userId = id
+    
     try {
-      const response = await createTransactionService(req.body)
+      const response = await createTransactionService(data)
       endpointResponse({
         res,
         message: `Transactions created successfully`,
@@ -112,7 +121,7 @@ module.exports = {
 
 //controller for getting one transaction
   getOneTransaction: catchAsync(async (req, res, next) => {
-
+    
     try {
       const response = await getTransactionService(req.params.id)
       
@@ -161,12 +170,12 @@ module.exports = {
     try {
       const { page } = req.query;
 
-      const response = await getUsersService(page? page : 0 , req.originalUrl)
+      const {data} = await getUsersService(page? page : 0 , req.originalUrl)
 
       endpointResponse({
         res,
-        message: `Users retrieved successfully, there are ${response?.length} users in the database`,
-        body: response,
+        message: `Users retrieved successfully, there are ${data?.length} users in the database`,
+        body: data,
       })
     } catch (error) {
 

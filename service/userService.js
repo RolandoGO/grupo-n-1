@@ -56,15 +56,13 @@ module.exports = {
     //update user service
      updateUserService: async (id,data)=>{
 
-        console.log(data)
+        
         const user = await User.findOne({where:{id}})
 
 
         if(!user){
             throw new ErrorObject("user not found", 404);
-        }else if(!data.length || typeof data !== "object"){
-            throw new ErrorObject("parameters is required", 404);
-        };
+        }
 
         //update user here:
         await User.update(data, { where: { id } })

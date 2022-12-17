@@ -21,6 +21,15 @@ module.exports = {
           date: new Date(),
           createdAt: new Date(),
           updatedAt: new Date()
+        },
+        {
+          description:"salario",
+          amount:120000,
+          userId:18,
+          categoryId:2,
+          date: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
     
     
