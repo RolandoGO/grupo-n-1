@@ -4,6 +4,8 @@ const userRouter = require("./userRouter")
 const authRouter = require("./authRouter")
 const categoryRouter = require("./categoryRouter")
 const uploadRouter = require("./uploadRouter")
+const swaggerUI = require("swagger-ui-express");
+const options = require("../helpers/swagger");
 
 const router = express.Router()
 
@@ -19,6 +21,9 @@ router.use("/auth", authRouter)
 //router for categories
 router.use("/categories", categoryRouter)
 router.use("/uploads", uploadRouter)
+
+router.use("/api/docs", swaggerUI.serve, swaggerUI.setup(options));
+
 
 
 module.exports = router
