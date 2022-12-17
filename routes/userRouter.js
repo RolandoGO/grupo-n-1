@@ -6,7 +6,7 @@ const router = express.Router()
 
 
 //route to get all users
-router.get("/",  authUserMiddleware, ownershipMiddleware, getUsers)
+router.get("/", authUserMiddleware, ownershipMiddleware, getUsers)
 //route to get a user
 router.get("/:id", authUserMiddleware, ownershipMiddleware, getUserData)
 //route that use schema and middleware for checking that the properties exist in the req before passing to the user controller

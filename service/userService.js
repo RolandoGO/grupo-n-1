@@ -59,7 +59,6 @@ module.exports = {
         console.log(data)
         const user = await User.findOne({where:{id}})
 
-        console.log()
 
         if(!user){
             throw new ErrorObject("user not found", 404);
