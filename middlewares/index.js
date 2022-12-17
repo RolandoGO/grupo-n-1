@@ -67,14 +67,14 @@ const authUserMiddleware = (req,res,next)=>{
     const currentUser = req.body.user
     const {id} =req.params || req.query
 
+    //checkin if the current user is client or admin
+    const call = await Role.findOne({where:{id:currentUser.roleId}})
+    const currentUserRole = call.name
+
+    
     if(id){ 
-
-        //checkin if the current user is client or admin
-        const call = await Role.findOne({where:{id:currentUser.roleId}})
-        const currentUserRole = call.name
-
-        
-          //if is the user is the same or is admin pass to the controller
+      
+      //if is the user is the same or is admin pass to the controller
         if(Number(id) === currentUser.id || currentUserRole === "admin" ){ 
           next()
           return
@@ -84,8 +84,19 @@ const authUserMiddleware = (req,res,next)=>{
           return res.status(403).json({ errors: "not authorize" });
 
     }
+    if(!id){
+      
+      if(currentUserRole==="admin"){
+       next()
+       return
+      }
 
-    next()
+      //if the user is not admin
+      return res.status(403).json({ errors: "not authorize" });
+
+    }
+
+    
 
 }
 
