@@ -1,6 +1,6 @@
 const express = require('express')
 const { getTransactions, createTransaction, getOneTransaction, updateTransaction, deleteTransaction} = require("../controllers/index")
-const { validationMiddleware, ownershipMiddleware,  authUserMiddleware} = require('../middlewares')
+const { validationMiddleware, ownershipMiddleware,  authUserMiddleware, transactionMiddleware} = require('../middlewares')
 const  schema  = require('../schemas');
 const router = express.Router()
 
@@ -59,13 +59,13 @@ const router = express.Router()
  */
 router.get("/", authUserMiddleware, ownershipMiddleware, getTransactions)
 //route to get one transaction
-router.get("/:id", authUserMiddleware, ownershipMiddleware ,getOneTransaction)
+router.get("/:id", authUserMiddleware, transactionMiddleware ,getOneTransaction)
 //route to create a transaction
-router.post("/", schema.transactionSchema, validationMiddleware, createTransaction)
+router.post("/", schema.transactionSchema, validationMiddleware, authUserMiddleware,  createTransaction)
 //route to edit one transaction
-router.put("/:id", schema.transactionSchema, validationMiddleware, authUserMiddleware, ownershipMiddleware, updateTransaction)
+router.put("/:id", schema.transactionSchema, validationMiddleware, authUserMiddleware, transactionMiddleware, updateTransaction)
 //route for deleting transaction
-router.delete("/:id", authUserMiddleware, ownershipMiddleware,  deleteTransaction)
+router.delete("/:id", authUserMiddleware, transactionMiddleware ,  deleteTransaction)
 
 
 

@@ -18,7 +18,7 @@ module.exports = {
           //sending token to the client in body
           endpointResponse({
             res,
-            body: token,
+            body: {token},
           })
         } catch (error) {
           const httpError = createHttpError(

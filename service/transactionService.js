@@ -44,6 +44,7 @@ module.exports ={
 },
 
     getTransactionService: async (id)=>{
+        
         const data = await Transaction.findOne({
             where: { id }
         })
@@ -65,7 +66,7 @@ module.exports ={
             throw new ErrorObject("no transaction found", 404)
         }
 
-      //create update here.
+     //create update here.
 
         await Transaction.update(data, {where:{id}});       
 
